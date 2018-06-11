@@ -1,6 +1,0 @@
-export const FIREBASE_API_KEY = 'AIzaSyCt7S9thhxJjt6RIAmKLrm8vfTFIicXHNY'
-export const FIREBASE_AUTH_DOMAIN = 'stories-6f13c.firebaseapp.com'
-export const FIREBASE_DATABASE_URL = 'https://stories-6f13c.firebaseio.com'
-export const FIREBASE_PROJECT_ID = 'stories-6f13c'
-export const FIREBASE_STORAGE_BUCKET = 'stories-6f13c.appspot.com'
-export const FIREBASE_MESSAGING_SENDER_ID = '375775802694'
