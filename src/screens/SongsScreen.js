@@ -11,14 +11,14 @@ import {
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-import * as Actions from '../actions/index'
+import * as actions from '../actions/index'
 
 class SongsScreen extends Component {
 
     state = {}
 
     componentDidMount() {
-        this.props.getData()
+        this.props.fetchStories()
     }
 
     renderItem = ({item, index}) => (
@@ -54,16 +54,16 @@ class SongsScreen extends Component {
 
 const mapStateToProps = (state, props) => {
     return {
-        data: state.songs.data,
-        loading: state.songs.loading,
+        data: state.stories.data,
+        loading: state.stories.loading,
+        error: state.stories.error
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getData: () => dispatch(Actions.getData())
+        fetchStories: () => dispatch(actions.fetchStories())
     }
-    return bindActionCreators(Actions, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SongsScreen)

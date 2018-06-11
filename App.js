@@ -8,9 +8,9 @@ import {
 import { createStackNavigator } from 'react-navigation'
 import { Provider } from 'react-redux'
 
-import LibraryScreen from './screens/LibraryScreen'
-import SongsScreen from './screens/SongsScreen'
-import store from './store'
+import LibraryScreen from './src/screens/LibraryScreen'
+import SongsScreen from './src/screens/SongsScreen'
+import store from './src/store'
 
 const AppNavigator = createStackNavigator({
   Library: SongsScreen,
