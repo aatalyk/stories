@@ -18,3 +18,22 @@ export const fetchStories = async (callback) => {
         callback([], error)
     }
 }
+
+export const fetchSongs = async (callback) => {
+    try {
+        const ref = await database.ref().child('songs')
+        ref.on('value', (snapshot) => {
+            const songs = []
+            snapshot.forEach(child => {
+                const item = child.val()
+                songs.push({
+                    title: child.title,
+                    description: child.description,
+                })
+            })
+            callback(songs, null)
+        })
+    } catch (error) {
+        callback(null, error)
+    }
+}

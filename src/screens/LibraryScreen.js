@@ -1,14 +1,15 @@
 import React from 'react'
 import { View, Button, Text, FlatList, Animated, StyleSheet, ScrollView, Platform } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
+import Fonts from '../utils/Fonts'
 
-const HEADER_MAX_HEIGHT = 100;
+const HEADER_MAX_HEIGHT = 75;
 const HEADER_MIN_HEIGHT = Platform.OS === 'ios' ? 60 : 73;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT
 
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList)
 
-const data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 19, 20, 21, 22, 23, 24, 25, 26]
+const data = ['Songs', 'Stories']
 
 export default class LibraryScreen extends React.Component {
 
@@ -16,7 +17,6 @@ export default class LibraryScreen extends React.Component {
         super(props)
 
         this.state = {
-            data: [1, 2, 3, 4, 5],
             scrollY: new Animated.Value(
                 Platform.OS === 'ios' ? -HEADER_MAX_HEIGHT : 0
             )
@@ -27,18 +27,26 @@ export default class LibraryScreen extends React.Component {
         return {
             title: navigation.getParam('title', ''),
             headerRight: (
-                <Icon.Button name="ios-alarm"/> 
-            )
+                <Icon.Button name="create" backgroundColor='white' color='blue'/> 
+            ),
+            headerStyle: {
+                backgroundColor: 'white',
+                borderBottomWidth: 0,
+            },
         }
     }
 
     renderScrollViewContent = ({ item }) => {
         return (
             <View style={styles.scrollViewContent}>
-                <Text>{item}</Text>
+                <Text style={styles.rowTitle}>{item}</Text>
             </View>
         )
     }
+
+    renderSeparator = () => (
+        <View style={styles.separator}/>
+    )
 
     setTitle = event => {
         if (event.nativeEvent.contentOffset.y > 0) {
@@ -80,7 +88,8 @@ export default class LibraryScreen extends React.Component {
                     )}
                     onMomentumScrollEnd={() => console.log('hi')}
                     data={data}
-                    renderItem={this.renderScrollViewContent}/>
+                    renderItem={this.renderScrollViewContent}
+                    ItemSeparatorComponent={this.renderSeparator}/>
                 <Animated.View 
                     pointerEvents="none" //read about it
                     style={[
@@ -98,20 +107,24 @@ export default class LibraryScreen extends React.Component {
 
 const styles = StyleSheet.create({
     title: {
-        flex: 1,
-        fontSize: 45,
-        margin: 8,
+        fontSize: 35,
+        marginLeft: 20,
+        marginRight: 20,
+        height: 50,
         justifyContent: 'center',
         alignItems: 'center',
+        fontFamily: Fonts.LibreFranklin,
     },
     fill: {
         flex: 1,
+        backgroundColor: 'white',
     },
     header: {
         position: 'absolute',
         top: 0,
         left: 0,
         right: 0,
+        flex: 1,
         overflow: 'hidden',
         height: HEADER_MAX_HEIGHT,
         justifyContent: 'center',
@@ -123,14 +136,25 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     scrollViewContent: {
-        backgroundColor: 'red',
-		margin: 8,
+        margin: 20,
+        marginTop: 15,
+        marginBottom: 15,
     }, 
     row: {
         height: 60,
-        margin: 16,
+        marginLeft: 5,
         backgroundColor: 'yellow',
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    rowTitle: {
+        fontSize: 25,
+        color: '#9b59b6'
+    },
+    separator: {
+        height: 1,
+        backgroundColor: '#DCDCDC',
+        marginLeft: 20,
+        marginRight: 20,
     }
 })

@@ -8,63 +8,65 @@ import {
     Text,
     ActivityIndicator,
 } from 'react-native'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 import * as actions from '../actions'
 
-class SongsScreen extends Component {
+class StoriesScreen extends Component {
 
     state = {}
 
     componentDidMount() {
-        this.props.fetchSongs()
+        this.props.fetchStories()
     }
 
-    renderItem = ({item, index}) => {
-        <View styles={styles.row}>
+    renderItem = ({item, index}) => (
+        <View style={styles.row}>
             <Text style={styles.title}>
-                {parseInt(index) + 1}{"."}{item.title}
+                {parseInt(index) + 1}{". "}{item.title}
             </Text>
-            <Text style={styles.title}>
+            <Text style={styles.description}>
                 {item.description}
             </Text>
         </View>
-    }
+    )
 
     render() {
         return (this.props.loading ?
-            (<View style={styles.activityIndicatorContainer}>
-                <ActivityIndicator animating={true}/>
-            </View>)
 
-            :
+                (<View style={styles.activityIndicatorContainer}>
+                    <ActivityIndicator animating={true}/>
+                </View>)
+            
+                :
 
-            (<View style={styles.fill}>
-                <FlatList 
-                    ref='listRef'
-                    data={this.props.data}
-                    renderItem={this.renderItem}
-                    keyExtractor={(item, index) => index}/>
-            </View>)
-        )
+                (<View style={styles.fill}>
+                    <FlatList
+                        ref='listRef'
+                        data={this.props.data}
+                        renderItem={this.renderItem}
+                        keyExtractor={(item, index) => index}/>
+                </View>)
+            )
     }
 }
 
 const mapStateToProps = (state, props) => {
     return {
-        data: state.songs.data,
-        loading: state.songs.loading,
-        error: state.songs.error,
+        data: state.stories.data,
+        loading: state.stories.loading,
+        error: state.stories.error
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        fetchSongs: () => dispatch(actions.fetchSongs())
+        fetchStories: () => dispatch(actions.fetchStories())
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SongsScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(StoriesScreen)
 
 const styles = StyleSheet.create({
     fill: {
