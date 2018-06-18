@@ -67,5 +67,9 @@
 		<string>LibreFranklin-Black.ttf</string>
 		<string>LibreFranklin-Bold.ttf</string>
 	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>audio</string>
+	</array>
 </dict>
 </plist>

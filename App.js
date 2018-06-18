@@ -10,10 +10,11 @@ import { Provider } from 'react-redux'
 
 import LibraryScreen from './src/screens/LibraryScreen'
 import StoriesScreen from './src/screens/StoriesScreen'
+import PlayerScreen from './src/screens/PlayerScreen'
 import store from './src/store'
 
 const AppNavigator = createStackNavigator({
-  Library: LibraryScreen,
+  Library: PlayerScreen,
 },
 {
   initialRouteName: 'Library',
