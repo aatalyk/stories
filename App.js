@@ -4,21 +4,11 @@ import {
   StyleSheet,
   Text,
   View
-} from 'react-native';
-import { createStackNavigator } from 'react-navigation'
+} from 'react-native'
 import { Provider } from 'react-redux'
 
-import LibraryScreen from './src/screens/LibraryScreen'
-import StoriesScreen from './src/screens/StoriesScreen'
-import PlayerScreen from './src/screens/PlayerScreen'
+import { AppNavigator } from './src/components/navigation'
 import store from './src/store'
-
-const AppNavigator = createStackNavigator({
-  Library: PlayerScreen,
-},
-{
-  initialRouteName: 'Library',
-})
 
 export default class App extends Component {
   render() {
@@ -30,21 +20,3 @@ export default class App extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});

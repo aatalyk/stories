@@ -21,14 +21,14 @@ export const fetchStories = async (callback) => {
 
 export const fetchSongs = async (callback) => {
     try {
-        const ref = await database.ref().child('songs')
+        const ref = await database.ref().child('instructions')
         ref.on('value', (snapshot) => {
             const songs = []
             snapshot.forEach(child => {
                 const item = child.val()
                 songs.push({
-                    title: child.title,
-                    description: child.description,
+                    title: item.title,
+                    description: item.description,
                 })
             })
             callback(songs, null)

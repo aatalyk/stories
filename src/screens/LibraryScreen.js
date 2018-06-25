@@ -1,17 +1,25 @@
 import React from 'react'
-import { View, Button, Text, FlatList, Animated, StyleSheet, ScrollView, Platform } from 'react-native'
+import { 
+    View, 
+    Button, 
+    Text, 
+    FlatList, 
+    Animated, 
+    StyleSheet, 
+    Platform, 
+    TouchableOpacity } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
 import Fonts from '../utils/Fonts'
+import { AppRoutes } from '../components/navigation'
 
-const HEADER_MAX_HEIGHT = 75;
-const HEADER_MIN_HEIGHT = Platform.OS === 'ios' ? 60 : 73;
-const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT
+const HEADER_MAX_HEIGHT = 75
+const HEADER_SCROLL_DISTANCE = 75
 
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList)
 
 const data = ['Songs', 'Stories']
 
-export default class LibraryScreen extends React.Component {
+export class LibraryScreen extends React.Component {
 
     constructor(props) {
         super(props)
@@ -36,14 +44,6 @@ export default class LibraryScreen extends React.Component {
         }
     }
 
-    renderScrollViewContent = ({ item }) => {
-        return (
-            <View style={styles.scrollViewContent}>
-                <Text style={styles.rowTitle}>{item}</Text>
-            </View>
-        )
-    }
-
     renderSeparator = () => (
         <View style={styles.separator}/>
     )
@@ -54,6 +54,20 @@ export default class LibraryScreen extends React.Component {
           } else {
             this.props.navigation.setParams({title: ''})
           }
+    }
+
+    _onPress = (item) => {
+        this.props.navigation.navigate(item)
+    }
+
+    _renderItem = ({ item, index }) => {
+        return (
+            <TouchableOpacity onPress={() => this._onPress(item)}>
+                <View style={styles.scrollViewContent}>
+                    <Text style={styles.rowTitle}>{item}</Text>
+                </View>
+            </TouchableOpacity>
+        )
     }
 
     render() {
@@ -88,8 +102,9 @@ export default class LibraryScreen extends React.Component {
                     )}
                     onMomentumScrollEnd={() => console.log('hi')}
                     data={data}
-                    renderItem={this.renderScrollViewContent}
-                    ItemSeparatorComponent={this.renderSeparator}/>
+                    renderItem={this._renderItem}
+                    ItemSeparatorComponent={this.renderSeparator}
+                    keyExtractor={(item, index) => index}/>
                 <Animated.View 
                     pointerEvents="none" //read about it
                     style={[
@@ -99,7 +114,6 @@ export default class LibraryScreen extends React.Component {
                     >
                     <Text style={styles.title}>Library</Text>
                 </Animated.View>
-                <Button title="test" onPress={() => console.log('test')}/>
             </View>
         )
     }

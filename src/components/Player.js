@@ -37,12 +37,17 @@ export default class Player extends Component {
             },
 
             onPanResponderRelease: (event, gestureState) => {
-                if(gestureState.dy < 0) {
+                if(gestureState.moveY > SCREEN_HEIGHT - 150) {
+                    Animated.spring(this.animation.y, {
+                        toValue: 0,
+                        tension: 1,
+                    }).start()
+                } else if(gestureState.dy < 0) {
                     Animated.spring(this.animation.y, {
                         toValue: -SCREEN_HEIGHT + 150,
                         tension: 1 
                     }).start()
-                } else if (gestureState.dy > 0) {
+                } else if (gestureState.dy > 0 && this.animation.y < SCREEN_HEIGHT/2) {
                     Animated.spring(this.animation.y, {
                         toValue: SCREEN_HEIGHT - 150,
                         tension: 1,

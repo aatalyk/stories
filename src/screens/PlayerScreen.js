@@ -6,7 +6,7 @@ import {
 import { ReactNativeAudioStreaming } from 'react-native-audio-streaming'
 import Player from '../components/Player'
 
-export default class PlayerScreen extends Component {
+export class PlayerScreen extends Component {
 
     constructor(props) {
         super(props)

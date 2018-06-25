@@ -7,15 +7,29 @@ import {
     View,
     Text,
     ActivityIndicator,
+    Animated,
+    Platform,
 } from 'react-native'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 import * as actions from '../actions'
 
-class StoriesScreen extends Component {
+const HEADER_MAX_HEIGHT = 75
+const HEADER_MIN_HEIGHT = Platform.OS === 'ios' ? 60 : 73
+const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT
 
-    state = {}
+class Stories extends Component {
+
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            scrollY: new Animated.Value(
+                Platform.OS === 'ios' ? -HEADER_MAX_HEIGHT : 0
+            )
+        }
+    }
 
     componentDidMount() {
         this.props.fetchStories()
@@ -33,6 +47,9 @@ class StoriesScreen extends Component {
     )
 
     render() {
+
+        const scrollY = Animated.add()
+
         return (this.props.loading ?
 
                 (<View style={styles.activityIndicatorContainer}>
@@ -41,7 +58,7 @@ class StoriesScreen extends Component {
             
                 :
 
-                (<View style={styles.fill}>
+                (<View style={styles.mainContainer}>
                     <FlatList
                         ref='listRef'
                         data={this.props.data}
@@ -66,13 +83,23 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(StoriesScreen)
+export const StoriesScreen = connect(mapStateToProps, mapDispatchToProps)(Stories)
 
 const styles = StyleSheet.create({
-    fill: {
+    mainContainer: {
         flex: 1,
         backgroundColor: 'yellow',
         paddingTop: 20,
+    },
+    header: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        flex: 1,
+        overflow: 'hidden',
+        height: HEADER_MAX_HEIGHT,
+        justifyContent: 'center',
     },
     activityIndicatorContainer: {
         backgroundColor: '#fff',
