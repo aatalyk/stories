@@ -9,7 +9,9 @@ export const fetchStories = async (callback) => {
                 const item = child.val()
                 stories.push({
                     title: item.title,
-                    description: item.description
+                    description: item.description,
+                    image: item.image,
+                    songUri: item.songUri
                 })
             })
             callback(stories, null)
@@ -29,6 +31,8 @@ export const fetchSongs = async (callback) => {
                 songs.push({
                     title: item.title,
                     description: item.description,
+                    image: item.image,
+                    songUri: item.songUri
                 })
             })
             callback(songs, null)

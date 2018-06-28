@@ -14,7 +14,8 @@ import { connect } from 'react-redux'
 
 import Fonts from '../utils/Fonts'
 import * as actions from '../actions'
-import { AppRoutes } from '../components/navigation';
+import { AppRoutes } from '../components/navigation'
+import ListItem from '../components/common/ListItem'
 
 const HEADER_MAX_HEIGHT = 75
 const HEADER_SCROLL_DISTANCE = 75
@@ -55,16 +56,11 @@ class Songs extends Component {
         }
     }
 
-    renderItem = ({item, index}) => (
-        <View styles={styles.row}>
-            <Text style={styles.title}>
-                {parseInt(index) + 1}{"."}{item.title}
-            </Text>
-            <Text style={styles.title}>
-                {item.description}
-            </Text>
-        </View>
-    )
+    _onPress = index => {
+        this.props.navigation.navigate(AppRoutes.Player, { index })
+    }
+
+    renderItem = ({item, index}) => <ListItem item={item} onPress={() => this._onPress(index)}/>
 
     render() {
 
@@ -138,8 +134,13 @@ export const SongsScreen = connect(mapStateToProps, mapDispatchToProps)(Songs)
 const styles = StyleSheet.create({
     fill: {
         flex: 1,
-        backgroundColor: 'yellow',
-        paddingTop: 20,
+        backgroundColor: 'white',
+    },
+    listItemContainer: {
+        flex: 1,
+        backgroundColor: 'white',
+        marginLeft: 20,
+        marginRight: 20,
     },
     activityIndicatorContainer: {
         backgroundColor: '#fff',
@@ -158,9 +159,36 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     row: {
-        borderBottomWidth: 1,
-        borderColor: '#ccc',
+        height: 60,
+        marginLeft: 5,
+        backgroundColor: 'white',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    listItemContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
         padding: 10,
+    },
+    iconContainer: {
+        flex: 1,
+        alignItems: 'flex-start',
+    },
+    songDetailsContainer: {
+        flex: 4,
+        justifyContent: 'center',
+        borderBottomColor: 'rgba(92, 94, 94, 0.5)',
+        borderBottomWidth: 0.25,
+    },
+    songDetailsContainerWrap: {
+        flex: 1,
+        alignItems: 'center',
+        flexDirection: 'row',
+    },
+    rowTitle: {
+        fontSize: 25,
+        color: '#9b59b6'
     },
     title: {
         fontSize: 35,

@@ -21,7 +21,7 @@ export default storiesReducer = (state = initialState, action) => {
         case FETCH_STORIES_SUCCESS:
             return {
                 ...state,
-                data: [...state.data, ...action.payload],
+                data: action.payload,
                 loading: false,
                 error: null,
             }

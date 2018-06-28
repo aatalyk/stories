@@ -4,7 +4,7 @@ import {
     Button
 } from 'react-native'
 import { ReactNativeAudioStreaming } from 'react-native-audio-streaming'
-import Player from '../components/Player'
+import Player from '../components/common/Player'
 
 export class PlayerScreen extends Component {
 
@@ -16,6 +16,21 @@ export class PlayerScreen extends Component {
         }
     }
 
+    static navigationOptions = ({ navigation }) => {
+        return {
+            title: '',
+            headerStyle: {
+                backgroundColor: 'transparent',
+                position: 'absolute',
+                height: 50,
+                top: 0,
+                left: 0,
+                right: 0,
+                borderBottomWidth: 0,
+            }
+        }
+    }
+
     play = () => {
         ReactNativeAudioStreaming.play('https://www.soundjay.com/button/button-1.mp3', {showIniOSMediaCenter: true, showInAndroidNotifications: true})
     }
@@ -23,7 +38,7 @@ export class PlayerScreen extends Component {
     render() {
         return (
             <View style={{flex:1}}>
-                <Player style={{flex:1}} uri={'https://cdn.dribbble.com/users/1969603/screenshots/4652763/iphone_6-7-8___27.png'}/>
+                <Player style={{flex:1}} index={this.props.navigation.state.params.index}/>
             </View>
         )
     }

@@ -21,7 +21,7 @@ export default songsReducer = (state = initialState, action) => {
         case FETCH_SONGS_SUCCESS: 
             return {
                 ...state,
-                data: [...state.data, ...action.payload],
+                data: action.payload,
                 loading: false,
             }
         case FETCH_SONGS_FAIL:
