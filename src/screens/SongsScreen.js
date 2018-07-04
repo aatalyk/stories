@@ -6,6 +6,7 @@ import {
     FlatList,
     View,
     Text,
+    Button,
     Animated,
     ActivityIndicator,
     Platform,
@@ -16,6 +17,7 @@ import Fonts from '../utils/Fonts'
 import * as actions from '../actions'
 import { AppRoutes } from '../components/navigation'
 import ListItem from '../components/common/ListItem'
+import { Labels } from '../utils/Labels'
 
 const HEADER_MAX_HEIGHT = 75
 const HEADER_SCROLL_DISTANCE = 75
@@ -41,6 +43,9 @@ class Songs extends Component {
     static navigationOptions = ({ navigation }) => {
         return {
             title: navigation.getParam('title', ''),
+            headerLeft: (
+                <Button title="Кітапхана" color='#9B59B6' onPress={() => navigation.goBack(null)}/> 
+            ),
             headerStyle: {
                 backgroundColor: 'white',
                 borderBottomWidth: 0,
@@ -57,10 +62,12 @@ class Songs extends Component {
     }
 
     _onPress = index => {
-        this.props.navigation.navigate(AppRoutes.Player, { index })
+        this.props.navigation.navigate(AppRoutes.Player, { index: index, title: Labels.SongsScreen })
     }
 
-    renderItem = ({item, index}) => <ListItem item={item} onPress={() => this._onPress(index)}/>
+    _renderSeparator = () => <View style={styles.separator}/>
+
+    _renderItem = ({item, index}) => <ListItem item={item} onPress={() => this._onPress(index)}/>
 
     render() {
 
@@ -100,7 +107,8 @@ class Songs extends Component {
                     )}
                     ref='listRef'
                     data={this.props.data}
-                    renderItem={this.renderItem}
+                    renderItem={this._renderItem}
+                    ItemSeparatorComponent={this._renderSeparator}
                     keyExtractor={(item, index) => index}/>
                 <Animated.View 
                     pointerEvents="none"
@@ -108,7 +116,7 @@ class Songs extends Component {
                         styles.header,
                         {transform: [{ translateY: headerTranslate}]},
                     ]}>
-                    <Text style={styles.title}>Songs</Text>
+                    <Text style={styles.title}>{Labels.SongsScreen}</Text>
                 </Animated.View>
             </View>)
         )
@@ -197,10 +205,16 @@ const styles = StyleSheet.create({
         height: 50,
         justifyContent: 'center',
         alignItems: 'center',
-        fontFamily: Fonts.LibreFranklin,
+        fontFamily: Fonts.MerriweatherBlack,
     },
     description: {
         marginTop: 5,
         fontSize: 14,
+    },
+    separator: {
+        height: 0.5,
+        backgroundColor: '#DCDCDC',
+        marginLeft: 100,
+        marginRight: 20,
     }
 })

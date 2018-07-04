@@ -12,13 +12,16 @@ export class PlayerScreen extends Component {
         super(props)
 
         this.state = {
-            paused: false,
+            paused: false
         }
     }
 
     static navigationOptions = ({ navigation }) => {
         return {
             title: '',
+            headerLeft: (
+                <Button title={navigation.state.params.title} color='white' onPress={() => navigation.goBack(null)}/>
+            ),
             headerStyle: {
                 backgroundColor: 'transparent',
                 position: 'absolute',
@@ -29,10 +32,6 @@ export class PlayerScreen extends Component {
                 borderBottomWidth: 0,
             }
         }
-    }
-
-    play = () => {
-        ReactNativeAudioStreaming.play('https://www.soundjay.com/button/button-1.mp3', {showIniOSMediaCenter: true, showInAndroidNotifications: true})
     }
 
     render() {

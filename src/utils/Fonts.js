@@ -1,3 +1,5 @@
 export default Fonts = {
-    LibreFranklin: 'LibreFranklin-Bold'
+    LibreFranklin: 'LibreFranklin-Bold',
+    MerriweatherBlack: 'Merriweather-Black',
+    MerriweatherRegular: 'Merriweather-Regular'
 }

@@ -13,7 +13,7 @@ export default class ListItem extends Component {
             <TouchableOpacity onPress={this.props.onPress}>
                 <View style={styles.listItemContainer}>
                     <View style={styles.iconContainer}>
-                        <Image source={{uri: this.props.item.image}} style={styles.initStyle} resizeMode='contain'/>
+                        <Image source={{uri: this.props.item.image}} style={styles.initStyle} resizeMode='cover'/>
                     </View>
                     <View style={styles.itemDetailContainer}>
                         <View style={styles.itemDetailContainerWrap}>
@@ -59,9 +59,10 @@ const styles = StyleSheet.create({
     titleContainer: {
         alignItems: 'flex-start',
         flex: 1,
+        marginLeft: 10
     },
     initStyle: {
-        borderRadius: 30,
+        borderRadius: 10,
         width: 60,
         height: 60,
     },

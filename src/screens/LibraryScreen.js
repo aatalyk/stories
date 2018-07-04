@@ -7,17 +7,19 @@ import {
     Animated, 
     StyleSheet, 
     Platform, 
-    TouchableOpacity } from 'react-native'
-import Icon from 'react-native-vector-icons/Ionicons'
+    Alert } from 'react-native'
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
 import Fonts from '../utils/Fonts'
-import { AppRoutes } from '../components/navigation'
+import { Labels, mapper } from '../utils/Labels'
+
+import LibraryItem from '../components/common/LibraryItem'
 
 const HEADER_MAX_HEIGHT = 75
 const HEADER_SCROLL_DISTANCE = 75
 
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList)
 
-const data = ['Songs', 'Stories']
+const data = [Labels.SongsScreen, Labels.StoriesScreen, Labels.AboutScreen]
 
 export class LibraryScreen extends React.Component {
 
@@ -25,17 +27,23 @@ export class LibraryScreen extends React.Component {
         super(props)
 
         this.state = {
+            data: [Labels.SongsScreen, Labels.StoriesScreen, Labels.AboutScreen],
             scrollY: new Animated.Value(
                 Platform.OS === 'ios' ? -HEADER_MAX_HEIGHT : 0
             )
         }
     }
 
+    componentDidMount() {
+        this.props.navigation.setParams({showAlert: this._showAlert})
+    }
+
     static navigationOptions = ({ navigation }) => {
+        const { params = {}} = navigation.state
         return {
             title: navigation.getParam('title', ''),
             headerRight: (
-                <Icon.Button name="create" backgroundColor='white' color='blue'/> 
+                <MaterialIcon.Button name="sort" backgroundColor='transparent' color='#9B59B6' onPress={() => params.showAlert()}/> 
             ),
             headerStyle: {
                 backgroundColor: 'white',
@@ -44,37 +52,54 @@ export class LibraryScreen extends React.Component {
         }
     }
 
-    renderSeparator = () => (
-        <View style={styles.separator}/>
-    )
-
-    setTitle = event => {
+    _setTitle = event => {
         if (event.nativeEvent.contentOffset.y > 0) {
-            this.props.navigation.setParams({title: 'Library'})
+            this.props.navigation.setParams({title: Labels.LibraryScreen})
           } else {
             this.props.navigation.setParams({title: ''})
           }
     }
 
-    _onPress = (item) => {
-        this.props.navigation.navigate(item)
+    _showAlert = () => {
+        Alert.alert(
+            Labels.LibraryScreen,
+            '',
+            [
+              {text: Labels.Sort, onPress: this._sort},
+              {text: Labels.Initial, onPress: this._shuffle},
+              {text: Labels.Cancel, onPress: null, style: 'cancel'},
+            ],
+            { cancelable: true }
+          )
     }
 
-    _renderItem = ({ item, index }) => {
-        return (
-            <TouchableOpacity onPress={() => this._onPress(item)}>
-                <View style={styles.scrollViewContent}>
-                    <Text style={styles.rowTitle}>{item}</Text>
-                </View>
-            </TouchableOpacity>
-        )
+    _sort = () => {
+        this.setState({
+            data: this.state.data.sort()
+        })
     }
+
+    _shuffle = () => {
+        this.setState({
+            data: data
+        })
+    }
+    
+    _onPress = (item) => {
+        this.props.navigation.navigate(mapper[item])
+    }
+
+    _renderItem = ({item, index}) => <LibraryItem item={item} onPress={() => this._onPress(item)}/>
+
+    _renderSeparator = () => (
+        <View style={styles.separator}/>
+    )
 
     render() {
 
         const scrollY = Animated.add(
             this.state.scrollY,
-            Platform.OS === 'ios' ? HEADER_MAX_HEIGHT : 0,
+            Platform.OS === 'ios' ? HEADER_SCROLL_DISTANCE : 0,
         )
 
         const headerTranslate = scrollY.interpolate({
@@ -97,13 +122,13 @@ export class LibraryScreen extends React.Component {
                     onScroll={Animated.event(
                         [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
                         { useNativeDriver: true,
-                          listener: this.setTitle
+                          listener: this._setTitle
                         },
                     )}
                     onMomentumScrollEnd={() => console.log('hi')}
-                    data={data}
+                    data={this.state.data}
                     renderItem={this._renderItem}
-                    ItemSeparatorComponent={this.renderSeparator}
+                    ItemSeparatorComponent={this._renderSeparator}
                     keyExtractor={(item, index) => index}/>
                 <Animated.View 
                     pointerEvents="none" //read about it
@@ -112,7 +137,7 @@ export class LibraryScreen extends React.Component {
                         {transform: [{ translateY: headerTranslate}]},
                     ]}
                     >
-                    <Text style={styles.title}>Library</Text>
+                    <Text style={styles.title}>Кітапхана</Text>
                 </Animated.View>
             </View>
         )
@@ -127,7 +152,7 @@ const styles = StyleSheet.create({
         height: 50,
         justifyContent: 'center',
         alignItems: 'center',
-        fontFamily: Fonts.LibreFranklin,
+        fontFamily: Fonts.MerriweatherBlack,
     },
     fill: {
         flex: 1,
@@ -166,7 +191,7 @@ const styles = StyleSheet.create({
         color: '#9b59b6'
     },
     separator: {
-        height: 1,
+        height: 0.5,
         backgroundColor: '#DCDCDC',
         marginLeft: 20,
         marginRight: 20,

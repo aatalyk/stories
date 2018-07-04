@@ -11,7 +11,8 @@ export const fetchStories = async (callback) => {
                     title: item.title,
                     description: item.description,
                     image: item.image,
-                    songUri: item.songUri
+                    songUri: item.songUri,
+                    lyrics: item.lyrics
                 })
             })
             callback(stories, null)
@@ -32,7 +33,8 @@ export const fetchSongs = async (callback) => {
                     title: item.title,
                     description: item.description,
                     image: item.image,
-                    songUri: item.songUri
+                    songUri: item.songUri,
+                    lyrics: item.lyrics
                 })
             })
             callback(songs, null)
